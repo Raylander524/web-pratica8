@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>SPA - AJAX</title>
+</head>
+
+<body>
+    <h1>SPA - AJAX</h1>
+    <div>
+        <h3>Pesquisar turma</h3>
+        Codigo: <input type="number" id="TurmaId"> <br />
+        <input type="button" value="Pesquisar" onclick="busca()">
+    </div>
+    <div>
+        <h3>Cadastrar turma</h3>
+        Codigo: <input type="number" id="TurmaCodigo1"> <br />
+        Disciplina: <input type="text" id="TurmaDisciplina1"> <br />
+        Semestre: <input type="number" id="TurmaSemestre1"> <br />
+        <input type="button" value="Cadastrar" onclick="save()">
+    </div>
+    <div>
+        <h3>Atualizar turma</h3>
+        Codigo: <input type="number" id="TurmaCodigo2"> <br />
+        Disciplina: <input type="text" id="TurmaDisciplina2"> <br />
+        Semestre: <input type="number" id="TurmaSemestre2"> <br />
+        <input type="button" value="Atualizar turma" onclick="atualizar()">
+    </div>
+    <div>
+        <h3>Deletar turma</h3>
+        Codigo: <input type="number" id="TurmaCodigo3"> <br />
+        <input type="button" value="Deletar elemento" onclick="deletar()">
+    </div>
+    <div>
+        <h3>Retornar alunos da turma</h3>
+        Codigo: <input type="number" id="TurmaCodigo4"> <br />
+        <input type="button" value="Retornar alunos de uma turma" onclick="buscaAlunos()">
+    </div>
+    <div>
+        <h3>Cadastrar aluno na turma</h3>
+        Codigo: <input type="number" id="TurmaCodigo5"> <br />
+        Matrícula: <input type="number" id="AlunoMatricula1"> <br />
+        Nome: <input type="text" id="AlunoNome"> <br />
+        Email: <input type="text" id="AlunoEmail"> <br />
+        <input type="button" value="Cadastrar Aluno" onclick="saveAluno()">
+    </div>
+    <div>
+        <h3>Deletar aluno na turma</h3>
+        Codigo: <input type="number" id="TurmaCodigo6"> <br />
+        Matrícula: <input type="number" id="AlunoMatricula2"> <br />
+        <input type="button" value="Deletar Aluno" onclick="deleteAluno()">
+    </div>
+    <br/>
+    <div><input type="button" value="Visualizar todas as turmas" onclick="buscaTudo()"></div>
+    <div id = "elementoTurma"></div>
+    <div id = "elementosTurma"></div>
+    <div id = "elementosAlunos"></div>
+    <script type="text/javascript">
+        function save(){
+            let codigo = document.getElementById("TurmaCodigo1").value;
+            let disciplina = document.getElementById("TurmaDisciplina1").value;
+            let semestre = document.getElementById("TurmaSemestre1").value;
+            let alunos = null;
+            newprod = {codigo: parseInt(codigo), disciplina: disciplina, semestre : parseInt(semestre), alunos: alunos};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/api/turma', true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+
+        function busca(){
+            let codigo = document.getElementById("TurmaId").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", '/api/turma/'+codigo, true);
+            xhr.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    turmas = JSON.parse(xhr.responseText);
+                   
+                    turmasElementoDiv = document.getElementById("elementoTurma");
+                    lista = '<ul>';
+                   
+                        lista += '<li>' + turmas.codigo+ " - " + turmas.disciplina + " - " + turmas.semestre + " - " + turmas.alunos + '</li>';
+                   
+                    lista += '<ul>';
+                    turmasElementoDiv.innerHTML = lista;
+                }
+
+            };
+            xhr.send();
+        }
+        function buscaTudo(){
+        var xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/api/turma", true);
+            xhttp.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    turmas = JSON.parse(xhttp.responseText);
+                    lista = '<ul>';
+
+                    turmasElementoDiv = document.getElementById("elementosTurma");
+                    for (const i in turmas){
+                        let p = turmas[i];
+                        lista += '<li>' + p.codigo + ' - ' + p.disciplina + ' - ' + p.semestre + ' - ' + p.alunos + '</li>';
+                    }
+                   
+                    lista += '<ul>';
+                        turmasElementoDiv.innerHTML = lista;
+                }
+            };
+            xhttp.send();
+        }
+        function atualizar(){
+            let codigo = document.getElementById("TurmaCodigo2").value;
+            let disciplina = document.getElementById("TurmaDisciplina2").value;
+            let semestre = document.getElementById("TurmaSemestre2").value;
+            let alunos = null;
+            newprod = {codigo: parseInt(codigo), disciplina: disciplina, semestre : parseInt(semestre), alunos: alunos};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", '/api/turma/'+codigo, true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+        function deletar(){
+            let codigo = document.getElementById("TurmaCodigo3").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", '/api/turma/'+codigo, true);
+            xhr.send();
+        }
+        function buscaAlunos(){
+            let codigo = document.getElementById("TurmaCodigo4").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", '/api/turma/'+codigo+'/alunos', true);
+            xhr.onload = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    alunos = JSON.parse(xhr.responseText);
+
+                    lista = '<ul>';
+                   
+                    alunosElementoDiv = document.getElementById("elementosTurma");
+                    for (const i in alunos){
+                        let p = alunos[i];
+                        lista += '<li>' + p.matricula + ' - ' + p.nome + ' - ' + p.email+ '</li>';
+                    }
+                   
+                    lista += '<ul>';
+                        alunosElementoDiv.innerHTML = lista;
+                }
+
+            };
+            xhr.send();
+        }
+        function saveAluno(){
+            let codigo = document.getElementById("TurmaCodigo5").value;
+            let matricula = document.getElementById("AlunoMatricula1").value;
+            let nome = document.getElementById("AlunoNome").value;
+            let email = document.getElementById("AlunoEmail").value;
+            newprod = {matricula: parseInt(matricula), nome: nome, email : email};
+           
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/api/turma/'+codigo+'/alunos', true);
+
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.send(JSON.stringify(newprod));
+        }
+        function deleteAluno(){
+            let codigo = document.getElementById("TurmaCodigo6").value;
+            let matricula = document.getElementById("AlunoMatricula2").value;
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", '/api/turma/'+codigo+'/alunos/'+matricula, true);
+            xhr.send();
+        }
+    </script>
+
+</body>
+
+</html>
