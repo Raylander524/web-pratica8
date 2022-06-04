@@ -10,10 +10,11 @@ import org.springframework.stereotype.Service;
 public class TurmaServices {
 
     private List<Turma> turmas = new ArrayList<Turma>();
-	private Aluno aluno = new Aluno(1, "pedro", "bwefb");
+	private Aluno aluno1 = new Aluno(1, "pedro", "bwefb");
+	private Aluno aluno2 = new Aluno(2, "pedro", "bwefb");
 	
 	public TurmaServices() {
-		turmas.addAll(Arrays.asList(new Turma(1, "Livro", 200, Arrays.asList(aluno,aluno)),new Turma(2, "Livro", 200,Arrays.asList(aluno,aluno)),new Turma(3, "Livro", 200,Arrays.asList(aluno,aluno))));
+		turmas.addAll(Arrays.asList(new Turma(1, "Livro", 200, Arrays.asList(aluno1,aluno2)),new Turma(2, "Livro", 200,Arrays.asList(aluno1,aluno2)),new Turma(3, "Livro", 200,Arrays.asList(aluno1,aluno2))));
 	}
 
 	public Turma getTurma(int codigo) {
@@ -57,13 +58,11 @@ public class TurmaServices {
 	public Boolean deleteAluno(int codigo,int matricula) {
 		for (Turma turma2 : turmas) {
 			if(turma2.getCodigo() == codigo){
-				List<Aluno> aluno = turma2.getAlunos();
-				for (Aluno aluno2 : aluno) {
-					if(aluno2.getMatricula() == matricula){
-						turma2.getAlunos().remove(aluno2);
+				List<Aluno> aluno = new ArrayList<Aluno>(turma2.getAlunos()); 
+				Aluno aluno1 = aluno.stream().filter(a -> a.getMatricula() == matricula).findFirst().get();
+						aluno.remove(aluno1);
+						turma2.setAlunos(aluno);
 						return true;
-					}
-				}
 			}
 		}
 		return false;
@@ -81,7 +80,9 @@ public class TurmaServices {
 	public void addAluno(int codigo,Aluno aluno) {
 		for (Turma turma2 : turmas) {
 			if(turma2.getCodigo() == codigo){
-				turma2.getAlunos().add(aluno);
+				List<Aluno> aluno1 = new ArrayList<Aluno>(turma2.getAlunos());
+				aluno1.add(aluno);
+				turma2.setAlunos(aluno1);
 			}
 		}
 	}
