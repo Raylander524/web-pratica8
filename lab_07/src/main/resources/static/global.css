@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.titulo{
+    background-color: #592512;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    padding-top: 0.7rem;
+    color: beige;
+}
+
+.researchClass{
+    width: 70rem;
+    height: 4rem;
+    margin-top: 1rem;
+    margin-left: 5rem;
+    padding: 3rem;
+    display: block;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-left: 9rem;
+}
+
+.researchClass-title{
+    font-size: 1.5rem;
+    display: inline;
+}
+
+#TurmaId{
+    width: 30rem;
+    height: 1.6rem;
+    padding: 0.3rem;
+    border-radius: 20rem;
+    display: inline;
+}
+
+.button{
+    height: 2.5rem;
+    width: 100px;
+    background-color: #0D0D0D;
+    color: aliceblue;
+    border: 3rem;
+    border-radius: 4rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+}

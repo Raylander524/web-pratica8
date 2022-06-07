@@ -4,16 +4,19 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>SPA - AJAX</title>
+    <link rel="stylesheet" type="text/css" href="global.css"/ media="screen">
 </head>
 
 <body>
-    <h1>SPA - AJAX</h1>
-    <div>
-        <h3>Pesquisar turma</h3>
-        Codigo: <input type="number" id="TurmaId"> <br />
-        <input type="button" value="Pesquisar" onclick="busca()">
+    <div class="titulo">
+        <h1 >SPA - AJAX</h1>
     </div>
-    <div>
+    <div class="researchClass">
+        <h3 class="researchClass-title">Pesquisar turma:</h3>
+        <input type="number" id="TurmaId" placeholder="Código">
+        <input class="button" type="button" value="Pesquisar" onclick="busca()">
+    </div>
+    <!--<div>
         <h3>Cadastrar turma</h3>
         Codigo: <input type="number" id="TurmaCodigo1"> <br />
         Disciplina: <input type="text" id="TurmaDisciplina1"> <br />
@@ -52,7 +55,7 @@
         <input type="button" value="Deletar Aluno" onclick="deleteAluno()">
     </div>
     <br/>
-    <div><input type="button" value="Visualizar todas as turmas" onclick="buscaTudo()"></div>
+    <div><input type="button" value="Visualizar todas as turmas" onclick="buscaTudo()"></div>-->
     <div id = "elementoTurma"></div>
     <div id = "elementosTurma"></div>
     <div id = "elementosAlunos"></div>
